@@ -1,19 +1,20 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UTGame
 {
     /// <summary>
     /// 按钮基类
     /// </summary>
-    public abstract class _AUTConfirmItem
+    public abstract class _AUTConfirmItem : _IUTExportMenuInterface
     {
+        public virtual bool needShow { get { return true; } }
+
         public void onGUI()
         {
             //创建一个按钮对象
             if (GUILayout.Button(_text, GUILayout.Height(30), GUILayout.Width(600)))
             {
-                _dealComfirm();
+                _dealConfirm();
             }
         }
 
@@ -25,14 +26,16 @@ namespace UTGame
         /// <summary>
         /// 具体的处理函数
         /// </summary>
-        protected abstract void _dealComfirm();
+        protected abstract void _dealConfirm();
     }
 
     /// <summary>
     /// Toggle 基类
     /// </summary>
-    public abstract class _AUTToggleItem 
+    public abstract class _AUTToggleItem : _IUTExportMenuInterface
     {
+        public virtual bool needShow { get { return true; } }
+
         protected bool _m_bIsOn;
         private bool tempResult;
 
@@ -65,7 +68,5 @@ namespace UTGame
 
             _m_bIsOn = _isOn;
         }
-
     }
 }
-

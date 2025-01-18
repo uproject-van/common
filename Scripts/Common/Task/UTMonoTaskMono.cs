@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 #if UNITY_EDITOR
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Security;
 #endif

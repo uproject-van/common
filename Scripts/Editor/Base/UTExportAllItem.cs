@@ -14,7 +14,7 @@ namespace UTGame
         protected override string _text { get { return "全 部 导 出"; } }
 
         //处理点击
-        protected override void _dealComfirm()
+        protected override void _dealConfirm()
         {
             if (_m_dExportAllAction != null) {
                 _m_dExportAllAction();
