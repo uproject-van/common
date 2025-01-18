@@ -31,5 +31,31 @@ namespace UTGame
             return new Color(1f, 1f, 1f);
         }
         #endregion
+        
+        #region 打印方便阅读的方法
+        
+        /// <summary>
+        /// 打印方便阅读的String
+        /// </summary>
+        /// <param name="_delegate"></param>
+        public static string ToReadableString(Delegate _delegate)
+        {
+            if (_delegate != null)
+            {
+                //string className = _delegate.Method.ReflectedType != null ? _delegate.Method.ReflectedType.FullName : "null";
+                string targetId;
+                try
+                {
+                    targetId = _delegate.Target != null ? _delegate.Target.GetHashCode().ToString() : "null";
+                }
+                catch (Exception )
+                {
+                    targetId = "null";//ILRuntime的GetHashCode有时候会报空。。先catch起来吧
+                }
+                return $"【{_delegate.Target}】  ->  {_delegate.Method.Name}  ->  {targetId}";
+            }
+            return "null";
+        }
+        #endregion
     }
 }

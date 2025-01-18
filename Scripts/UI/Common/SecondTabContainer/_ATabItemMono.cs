@@ -123,7 +123,7 @@ namespace UTGame
                 return;
 
             UGUICommon.setLabelTxt(nameTxt, _m_data.name);
-            TabItemMonoStatusMono.setStatus(statusMonoList, _m_selectStatus,
+            UGUICommon.setStatus(statusMonoList, _m_selectStatus,
                 (_statusMono) =>
                 {
                     UGUICommon.setUIObjColor(nameTxt, _statusMono.chgColor);

@@ -11,10 +11,10 @@ namespace UTGame
     }
 
     [System.Serializable]
-    public class CommonStatusMono<T> where T : Enum
+    public class CommonStatusMono<E> where E : Enum
     {
         [Header("选中状态")]
-        public T status;
+        public E status;
 
         [Header("该状态需要显示的GoList")]
         public List<GameObject> showGoList;
@@ -25,30 +25,5 @@ namespace UTGame
         [Header("该状态需要设置的文本颜色 - 16进制")]
         public Color chgColor;
 
-        public static void setStatus<T, E>(List<E> _statusMonoList, T _status,
-            Action<E> _perAction = null)
-            where T : Enum
-            where E : CommonStatusMono<T>
-        {
-            if (null == _statusMonoList || _statusMonoList.Count == 0)
-                return;
-
-            E temp = null;
-            for (int i = 0; i < _statusMonoList.Count; i++)
-            {
-                temp = _statusMonoList[i];
-                if (null == temp)
-                    continue;
-
-                if (temp.status.Equals(_status))
-                {
-                    UGUICommon.setGameObjEnable(temp.showGoList, true);
-                    UGUICommon.setGameObjEnable(temp.hideGoList, false);
-                    if (null != _perAction)
-                        _perAction(temp);
-                    break;
-                }
-            }
-        }
     }
 }

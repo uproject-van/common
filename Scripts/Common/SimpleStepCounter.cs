@@ -12,6 +12,7 @@ namespace WLDDZ
 
         /** 总的需要的步骤数量 */
         private int _m_iTotalStepCount;
+
         /** 目前完成的步骤数量 */
         private int _m_iCurDoneStepCount;
 
@@ -34,17 +35,25 @@ namespace WLDDZ
                 _m_iCurDoneStepCount = 0;
             }
         }
+
         /****************
-        * 重置
-        **/
+         * 重置
+         **/
         public void resetAll()
         {
             resetStepInfo();
             _m_dOnAllStepDone = null;
         }
 
-        public int totalStep { get { return _m_iTotalStepCount; } }
-        public int doneStep { get { return _m_iCurDoneStepCount; } }
+        public int totalStep
+        {
+            get { return _m_iTotalStepCount; }
+        }
+
+        public int doneStep
+        {
+            get { return _m_iCurDoneStepCount; }
+        }
 
         /****************
          * 修改总的需要完成的步骤数

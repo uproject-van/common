@@ -270,17 +270,17 @@ namespace UTGame
             //开启任务刷新
             if (itemContainer is VerticalLayoutGroup)
             {
-                UTMonoTaskMgr.instance.addNextFrameTask(new UTActionMonoTask(() =>
+                UTCommonTaskController.CommonActionAddNextFrameTask(() =>
                 {
                     _refresh(GridLayoutGroup.Axis.Vertical);
-                }));
+                });
             }
             else if (itemContainer is HorizontalLayoutGroup)
             {
-                UTMonoTaskMgr.instance.addNextFrameTask(new UTActionMonoTask(() =>
+                UTCommonTaskController.CommonActionAddNextFrameTask(() =>
                 {
                     _refresh(GridLayoutGroup.Axis.Horizontal);
-                }));
+                });
             }
             else if (itemContainer is GridLayoutGroup)
             {
@@ -289,17 +289,17 @@ namespace UTGame
                 GridLayoutGroup.Axis direction = ((GridLayoutGroup)itemContainer).startAxis;
                 if (GridLayoutGroup.Axis.Horizontal == direction)
                 {
-                    UTMonoTaskMgr.instance.addNextFrameTask(new UTActionMonoTask(() =>
+                    UTCommonTaskController.CommonActionAddNextFrameTask(() =>
                     {
                         _refresh(GridLayoutGroup.Axis.Vertical);
-                    }));
+                    });
                 }
                 else
                 {
-                    UTMonoTaskMgr.instance.addNextFrameTask(new UTActionMonoTask(() =>
+                    UTCommonTaskController.CommonActionAddNextFrameTask(() =>
                     {
                         _refresh(GridLayoutGroup.Axis.Horizontal);
-                    }));
+                    });
                 }
             }
         }

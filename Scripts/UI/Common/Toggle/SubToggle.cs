@@ -78,7 +78,7 @@ namespace UTGame
 
         private void _refresh()
         {
-            CommonStatusMono<ESelectStatus>.setStatus(statusMonoList, _m_selectStatus,
+            UGUICommon.setStatus(statusMonoList, _m_selectStatus,
                 (_statusMono) => { chgColorTxt.color = _statusMono.chgColor; });
         }
 

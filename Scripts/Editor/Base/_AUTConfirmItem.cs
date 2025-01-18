@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace UTPackage
+namespace UTGame
 {
     /// <summary>
     /// 按钮基类

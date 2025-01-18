@@ -66,8 +66,8 @@ namespace UTGame
         //TODO 使用文本修改
         private void _refresh()
         {
-            CommonStatusMono<EItemUseStatus>.setStatus(statusMonoList, _m_eUseStatus);
-            UGUICommon.setLabelTxt(usingTxt, "useing");
+            UGUICommon.setStatus(statusMonoList, _m_eUseStatus);
+            UGUICommon.setLabelTxt(usingTxt, "using");
             UGUICommon.setLabelTxt(usedTxt, "used");
         }
 

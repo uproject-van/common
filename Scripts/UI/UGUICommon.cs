@@ -716,5 +716,40 @@ namespace UTGame
 
             GameObject.Destroy(_obj.gameObject);
         }
+
+        /// <summary>
+        /// 设置不同状态
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="_statusMonoList"></param>
+        /// <param name="_status"></param>
+        /// <param name="_perAction"></param>
+        public static void setStatus<T, E>(List<E> _statusMonoList, T _status,
+            Action<E> _perAction = null)
+            where T : Enum
+            where E : CommonStatusMono<T>
+        {
+            if (null == _statusMonoList || _statusMonoList.Count == 0)
+                return;
+
+            E temp = null;
+            for (int i = 0; i < _statusMonoList.Count; i++)
+            {
+                temp = _statusMonoList[i];
+                if (null == temp)
+                    continue;
+
+                if (temp.status.Equals(_status))
+                {
+                    setGameObjEnable(temp.showGoList, true);
+                    setGameObjEnable(temp.hideGoList, false);
+                    if (null != _perAction)
+                        _perAction(temp);
+
+                    break;
+                }
+            }
+        }
     }
 }
