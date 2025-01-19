@@ -56,33 +56,33 @@ namespace UTGame
         /*******************
          * 场景信息加载完后的处理函数
          **/
-        public void _onAssetLoaded(bool _isSuc, ALAssetBundleObj _assetObj)
+        public void _onAssetLoaded(bool _isSuc, AssetBundle _assetObj)
         {
-            if (!_isSuc)
-            {
-#if UNITY_EDITOR
-                Debug.LogWarning(ToString() + " Basic Ref Download err!");
-#endif
-                _dealFailCallback();
-                return;
-            }
-
-            //获取对象
-            _TUTSOBaseRefSet<T> refSetObj = _assetObj.load(_objName) as _TUTSOBaseRefSet<T>;
-            if (null == refSetObj)
-            {
-#if UNITY_EDITOR
-                Debug.LogWarning(ToString() + " Basic Ref Load err!");
-#endif
-                _dealFailCallback();
-                return;
-            }
-
-            //初始化数据
-            initData(refSetObj);
-
-            //调用回调处理
-            _dealSuccessCallback();
+//             if (!_isSuc)
+//             {
+// #if UNITY_EDITOR
+//                 Debug.LogWarning(ToString() + " Basic Ref Download err!");
+// #endif
+//                 _dealFailCallback();
+//                 return;
+//             }
+//
+//             //获取对象
+//             _TUTSOBaseRefSet<T> refSetObj = _assetObj.load(_objName) as _TUTSOBaseRefSet<T>;
+//             if (null == refSetObj)
+//             {
+// #if UNITY_EDITOR
+//                 Debug.LogWarning(ToString() + " Basic Ref Load err!");
+// #endif
+//                 _dealFailCallback();
+//                 return;
+//             }
+//
+//             //初始化数据
+//             initData(refSetObj);
+//
+//             //调用回调处理
+//             _dealSuccessCallback();
         }
 #if UNITY_EDITOR
         public void _onLocalObjLoaded(Object _obj)
