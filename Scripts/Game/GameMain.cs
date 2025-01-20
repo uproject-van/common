@@ -30,30 +30,28 @@ namespace UTGame
 
         private void Start()
         {
-            //先进行 task 初始化
-            UTMonoTaskMgr.instance.addMonoTask(null);
-
             //设置处理对象
             if (null == _g_instance)
-            {
                 _g_instance = this;
-            }
             else
             {
                 UTLog.Error("Multiple GameMain Mono!!!");
                 return;
             }
-
+            //设置对象不被删除
+            DontDestroyOnLoad(this);
+            //进行 task 初始化
+            UTMonoTaskMgr.instance.addMonoTask(null);
             //判断本对象是否有加载ALMonoTaskMono脚本，无则自动添加
             if (null == gameObject.GetComponent<UTMonoTaskMono>())
                 gameObject.AddComponent<UTMonoTaskMono>();
+            
+            //资源管理初始化
+            _initYooAsset();
 
-            //设置对象不被删除
-            GameObject.DontDestroyOnLoad(this);
 
             UGUICommon.combineBtnClick(testGo, _testGoDidClick);
 
-            _initYooAsset();
         }
 
         /// <summary>

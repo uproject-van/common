@@ -26,8 +26,7 @@ namespace UTGame
         /************
          * 资源加载路径
          **/
-        public static string assetPath { get { return "refdata/game_refdata.unity3d"; } }
-        public static string objName { get { return "general"; } }
+        public static string assetName { get { return "general"; } }
     }
 }
 

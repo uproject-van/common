@@ -18,12 +18,10 @@ namespace UTGame
                 return _g_instance;
             }
         }
-
-        //带唯一key的refset
-
+        
         //通用配置表
         public UTBaseListRefCore<UTGeneralRefObj> npGeneralMap = new UTBaseListRefCore<UTGeneralRefObj>(
-            UTSOGeneralRefSet.assetPath, UTSOGeneralRefSet.objName);
+            UTSOGeneralRefSet.assetName);
         public UTGeneralRefObj npGeneral = null;
     
         //是否初始化完成

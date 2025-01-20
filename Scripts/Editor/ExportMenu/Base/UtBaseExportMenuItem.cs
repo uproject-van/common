@@ -10,19 +10,16 @@ namespace UTGame
         where Tobj : _IUTBaseRefObj, new()
         where TMap : _TUTSOBaseRefSet<Tobj>, new()
     {
-        private string assetPath = "";
-        private string objName = "";
+        private string _m_assetName = "";
 
         public UtBaseExportMenuItem(string _exportName,
             EUTExportSettingEnum _exportEnum,
-            string _assetPath,
-            string _objName,
+            string _assetName,
             string _tag,
             Func<string, string, bool> _judgeCanShowFunc)
             : base(_tag, _exportEnum, _judgeCanShowFunc)
         {
-            assetPath = _assetPath;
-            objName = _objName;
+            _m_assetName = _assetName;
             _regSubItem(new UTTextButtonItem(_exportName, 15, "copy",
                 () => { GUIUtility.systemCopyBuffer = _exportName; }));
             _regSubItem(new UTSplitLine());
@@ -51,9 +48,9 @@ namespace UTGame
 
             string tabName = UTInputTabData.instance.getValue(exportEnum.ToString());
 
-            if (string.IsNullOrEmpty(objName) || string.IsNullOrEmpty(assetPath))
+            if (string.IsNullOrEmpty(_m_assetName))
             {
-                Debug.LogError($"{tabName}:Ref Set 导出失败，包名为空，objName:{objName} assetPath:{assetPath}");
+                Debug.LogError($"{tabName}:Ref Set 导出失败，包名为空，assetName:{_m_assetName}");
                 return;
             }
 
@@ -71,13 +68,13 @@ namespace UTGame
 
             TMap refSet = ScriptableObject.CreateInstance<TMap>();
             refSet.refList = new List<Tobj>(_exchangeTemplate(tempList));
-            UTBaseExportFunction.exportAsset(refSet, objName, assetPath, "unity3d");
+            UTBaseExportFunction.exportAsset(refSet, _m_assetName);
             AssetDatabase.Refresh();
 
             tempList.Clear();
             tempList = null;
             //输出导出完成
-            Debug.LogWarning(string.Format("{0} : Ref Set 导出完成!! {1} : {2}", tabName, assetPath, objName));
+            Debug.LogWarning(string.Format("{0} : Ref Set 导出完成!! {1}", tabName, _m_assetName));
         }
 
         protected TTemp obj;

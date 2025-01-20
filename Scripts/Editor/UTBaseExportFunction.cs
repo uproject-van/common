@@ -63,13 +63,7 @@ namespace UTGame
         /*****************
          * 导出对应对象，并设置对应对象的assetbundle路径信息
          **/
-        public static void exportAsset(UnityEngine.Object _assetObj, string _assetPath, string _assetBundlePath)
-        {
-            string assetPath = exportAsset(_assetObj, _assetPath);
 
-            //设置对应的assetbundle路径
-            UTAssetBundleCommon.setAssetBundleName(assetPath, _assetBundlePath);
-        }
         public static void exportAsset(UnityEngine.Object _assetObj, string _assetPath, string _assetBundlePath, string _varianName)
         {
             string assetPath = exportAsset(_assetObj, _assetPath);

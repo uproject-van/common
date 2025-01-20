@@ -42,7 +42,7 @@ namespace UTGame
 
             _m_bInit = true;
             //开始加载
-            UTLocalResLoaderMgr.instance.loadRefdataObjAsset< _TUTSOBaseRefSet<T>>(_assetPath, _objName, _onAssetLoaded, null, _onLocalObjLoaded);
+            UTResLoaderMgr.instance.loadRefdataObjAsset(_m_assetName, _onAssetLoaded);
 
         }
 
@@ -56,38 +56,9 @@ namespace UTGame
         /*******************
          * 场景信息加载完后的处理函数
          **/
-        public void _onAssetLoaded(bool _isSuc, AssetBundle _assetObj)
+        public void _onAssetLoaded(bool _isSuc, Object _assetObj)
         {
-//             if (!_isSuc)
-//             {
-// #if UNITY_EDITOR
-//                 Debug.LogWarning(ToString() + " Basic Ref Download err!");
-// #endif
-//                 _dealFailCallback();
-//                 return;
-//             }
-//
-//             //获取对象
-//             _TUTSOBaseRefSet<T> refSetObj = _assetObj.load(_objName) as _TUTSOBaseRefSet<T>;
-//             if (null == refSetObj)
-//             {
-// #if UNITY_EDITOR
-//                 Debug.LogWarning(ToString() + " Basic Ref Load err!");
-// #endif
-//                 _dealFailCallback();
-//                 return;
-//             }
-//
-//             //初始化数据
-//             initData(refSetObj);
-//
-//             //调用回调处理
-//             _dealSuccessCallback();
-        }
-#if UNITY_EDITOR
-        public void _onLocalObjLoaded(Object _obj)
-        {
-            if(null == _obj)
+            if (!_isSuc)
             {
 #if UNITY_EDITOR
                 Debug.LogWarning(ToString() + " Basic Ref Download err!");
@@ -97,8 +68,8 @@ namespace UTGame
             }
 
             //获取对象
-            _TUTSOBaseRefSet<T> refSetObj = _obj as _TUTSOBaseRefSet<T>;
-            if(null == refSetObj)
+            _TUTSOBaseRefSet<T> refSetObj = _assetObj as _TUTSOBaseRefSet<T>;
+            if (null == refSetObj)
             {
 #if UNITY_EDITOR
                 Debug.LogWarning(ToString() + " Basic Ref Load err!");
@@ -113,7 +84,6 @@ namespace UTGame
             //调用回调处理
             _dealSuccessCallback();
         }
-#endif
 
         protected void _dealSuccessCallback()
         {
@@ -161,7 +131,6 @@ namespace UTGame
         }
         
         /** 获取加载资源对象的路径 */
-        protected abstract string _assetPath { get; }
-        protected abstract string _objName { get; }
+        protected abstract string _m_assetName { get; }
     }
 }

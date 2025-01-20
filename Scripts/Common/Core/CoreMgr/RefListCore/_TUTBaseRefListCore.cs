@@ -12,7 +12,7 @@ namespace UTGame
     public class _TUTBaseRefListCore<T> where T : _IUTBaseRefObj
     {
         /** 存储对应id索引的数据映射表 */
-        private List<T> _m_dicRef;
+        private List<T> _m_refList;
         /// <summary>
         /// 是否已经初始化数据，没有初始化的时候就访问的话会报错
         /// </summary>
@@ -23,12 +23,12 @@ namespace UTGame
 
         public _TUTBaseRefListCore()
         {
-            _m_dicRef = new List<T>();
+            _m_refList = new List<T>();
 
             _m_oDefaultObj = default(T);
         }
 
-        public List<T> refList
+        public List<T> RefList
         {
             get
             {
@@ -36,7 +36,7 @@ namespace UTGame
                 {
                     UnityEngine.Debug.LogError($"在配表还没初始化就尝试访问：{this.GetType()}");
                 }
-                return _m_dicRef;
+                return _m_refList;
             }
         }
 
@@ -73,7 +73,7 @@ namespace UTGame
 
             _m_bIsInit = true;
 
-            _m_dicRef = new List<T>(_refList.Count);
+            _m_refList = new List<T>(_refList.Count);
             //遍历数据集插入映射表
             for(int i = 0; i < _refList.Count; i++)
             {
@@ -82,7 +82,7 @@ namespace UTGame
                     continue;
 
                 //放入映射表
-                _m_dicRef.Add(refObj);
+                _m_refList.Add(refObj);
             }
         }
 
@@ -98,14 +98,14 @@ namespace UTGame
 #endif
             }
             T tmp = default(T);
-            for (int i = 0; i < _m_dicRef.Count; i++)
+            for (int i = 0; i < _m_refList.Count; i++)
             {
-                tmp = _m_dicRef[i];
+                tmp = _m_refList[i];
                 if(tmp == null)
                     continue;
 
                 if (tmp._refId == _id)
-                    return _m_dicRef[i];
+                    return _m_refList[i];
             }
 
             if(_checkFail)
@@ -120,10 +120,10 @@ namespace UTGame
             {
                 UnityEngine.Debug.LogError($"在配表还没初始化就尝试访问：{this.GetType()}");
             }
-            for(int i = 0; i < _m_dicRef.Count; i++)
+            for(int i = 0; i < _m_refList.Count; i++)
             {
-                if (_findFunc(_m_dicRef[i]))
-                    return _m_dicRef[i];
+                if (_findFunc(_m_refList[i]))
+                    return _m_refList[i];
             }
 
             return default(T);
@@ -142,9 +142,9 @@ namespace UTGame
                 UnityEngine.Debug.LogError($"在配表还没初始化就尝试访问：{this.GetType()}");
             }
             
-            for(int i = 0; i < _m_dicRef.Count; i++)
+            for(int i = 0; i < _m_refList.Count; i++)
             {
-                _action(_m_dicRef[i]);
+                _action(_m_refList[i]);
             }
         }
 
@@ -153,8 +153,8 @@ namespace UTGame
         /// </summary>
         protected void _clear()
         {
-            if(null != _m_dicRef)
-                _m_dicRef.Clear();
+            if(null != _m_refList)
+                _m_refList.Clear();
         }
 
         /// <summary>
