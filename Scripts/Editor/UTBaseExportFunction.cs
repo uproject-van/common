@@ -53,12 +53,12 @@ namespace UTGame
             checkFolder(folderPath);
 
             //创建对象
-            AssetDatabase.CreateAsset(_assetObj, "Assets/Resources/Refdata/__DLExport/" + _assetPath + ".asset");
+            AssetDatabase.CreateAsset(_assetObj, "Assets/Resources/Refdata/__DLExport/__Client/" + _assetPath + ".asset");
 
             AssetDatabase.SaveAssets();
 
             //返回导出对象的asset路径
-            return "Assets/Resources/Refdata/__DLExport/" + _assetPath;
+            return "Assets/Resources/Refdata/__DLExport/__Client/" + _assetPath;
         }
         /*****************
          * 导出对应对象，并设置对应对象的assetbundle路径信息
@@ -87,7 +87,7 @@ namespace UTGame
             //先检查基本设置
             checkEnv();
 
-            string assetPath = "/Resources/Refdata/__DLExport/" + _folderAssetPath;
+            string assetPath = "/Resources/Refdata/__DLExport/__Client/" + _folderAssetPath;
             if (Directory.Exists(Application.dataPath + assetPath))
                 return;
 
@@ -143,6 +143,10 @@ namespace UTGame
                 AssetDatabase.CreateFolder("Assets/Resources", "Refdata");
             if (!Directory.Exists(Application.dataPath + "/Resources/Refdata/__DLExport"))
                 AssetDatabase.CreateFolder("Assets/Resources/Refdata", "__DLExport");
+            if (!Directory.Exists(Application.dataPath + "/Resources/Refdata/__DLExport/__Client"))
+                AssetDatabase.CreateFolder("Assets/Resources/Refdata/__DLExport", "__Client");
+            if (!Directory.Exists(Application.dataPath + "/Resources/Refdata/__DLExport/__Server"))
+                AssetDatabase.CreateFolder("Assets/Resources/Refdata/__DLExport", "__Server");
         }
 
         /******************

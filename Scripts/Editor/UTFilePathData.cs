@@ -9,7 +9,7 @@ namespace UTGame
 	{
 	    public static UTFilePathData getSavePathData(EUTExportSettingEnum _exportEnum)
 	    {
-	        return new UTFilePathData("Refdata", "__DLExport", _exportEnum);
+	        return new UTFilePathData("Refdata", "__DLExport/__Server", _exportEnum);
 	    }
 
 	    public static UTFilePathData getBackUpPathData(EUTExportSettingEnum _exportEnum)

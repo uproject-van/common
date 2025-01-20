@@ -9,7 +9,7 @@ namespace UTGame
 {
     public class UTMonoTaskMono : MonoBehaviour
     {
-#if UNITY_EDITOR && UNITY_STANDALONE
+#if UNITY_EDITOR && UNITY_STANDALONE_WIN
         [SuppressUnmanagedCodeSecurity]
         [DllImport("Kernel32.dll")]
         private static extern bool QueryPerformanceCounter(out long performanceCount);
@@ -46,7 +46,7 @@ namespace UTGame
                 //设置本脚本有效
                 _m_bIsEnable = true;
 
-#if UNITY_EDITOR && UNITY_STANDALONE
+#if UNITY_EDITOR && UNITY_STANDALONE_WIN
                 QueryPerformanceFrequency(out _m_lTimeTickPerSec);
 #endif
             }
@@ -211,7 +211,7 @@ namespace UTGame
             if (null == _monoTask)
                 return;
 
-#if UNITY_EDITOR && UNITY_STANDALONE
+#if UNITY_EDITOR && UNITY_STANDALONE_WIN
             _m_thisFrameTotalTask++;
             QueryPerformanceCounter(out _m_lTickStart);
             string taskDebugString = _monoTask.ToString();//需要先记录调试string，否则deal之后可能被清空，就不知道是谁了
@@ -219,7 +219,7 @@ namespace UTGame
             //进行处理
             _monoTask.deal();
 
-#if UNITY_EDITOR && UNITY_STANDALONE
+#if UNITY_EDITOR && UNITY_STANDALONE_WIN
             QueryPerformanceCounter(out _m_lTickEnd);
 
             //判断时间长度

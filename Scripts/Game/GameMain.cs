@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using YooAsset;
 
 namespace UTGame
 {
@@ -14,6 +16,9 @@ namespace UTGame
 
         [Header("是否进行任务超时监控")]
         public bool isMonitorTaskTime;
+
+        [Header("非编辑器环境下是否输出日志")]
+        public bool showDebugOutput;
 
         [Header("输出日志等级")]
         public UTLogLevel logLevel = UTLogLevel.DEBUG;
@@ -47,9 +52,79 @@ namespace UTGame
             GameObject.DontDestroyOnLoad(this);
 
             UGUICommon.combineBtnClick(testGo, _testGoDidClick);
+
+            _initYooAsset();
+        }
+
+        /// <summary>
+        /// 初始话YooAsset
+        /// </summary>
+        private void _initYooAsset()
+        {
+            YooAssets.Initialize();
+            
+            // 创建资源包裹类
+            string packageName = "DefaultPackage";
+            ResourcePackage package = YooAssets.TryGetPackage(packageName);
+            if (package == null)
+                package = YooAssets.CreatePackage(packageName);
+
+            EPlayMode playMode = EPlayMode.EditorSimulateMode;
+            // 编辑器下的模拟模式
+            InitializationOperation initializationOperation = null;
+            if (playMode == EPlayMode.EditorSimulateMode)
+            {
+                var buildResult = EditorSimulateModeHelper.SimulateBuild(packageName);
+                var packageRoot = buildResult.PackageRootDirectory;
+                var createParameters = new EditorSimulateModeParameters();
+                createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
+                initializationOperation = package.InitializeAsync(createParameters);
+            }
+
+            initializationOperation.Completed += ((_oprera) =>
+            {
+                // 如果初始化失败弹出提示界面
+                if (_oprera.Status != EOperationStatus.Succeed)
+                {
+                    Debug.LogWarning($"{_oprera.Error}");
+                    return;
+                }
+            
+                YooAssets.SetDefaultPackage(package);
+                RequestPackageVersionOperation reqOperation = package.RequestPackageVersionAsync();
+                reqOperation.Completed += ((_op) =>
+                {
+                    if (_op.Status != EOperationStatus.Succeed)
+                    {
+                        Debug.LogWarning($"{_op.Error}");
+                        return;
+                    }
+
+                    UpdatePackageManifestOperation manifestOp = package.UpdatePackageManifestAsync(reqOperation.PackageVersion);
+                    manifestOp.Completed += (_op2) =>
+                    {
+                        if (_op2.Status != EOperationStatus.Succeed)
+                        {
+                            Debug.LogWarning($"{_op2.Error}");
+                            return;
+                        }
+                        
+                        AssetHandle handle1 =  YooAssets.LoadAssetAsync("general");
+                        handle1.Completed += (_handle) =>
+                        {
+                            Debug.LogError($"{_handle}");
+                        };
+                    };
+
+                });
+                
+            });
+
+
         }
 
 
+        
         private void _testGoDidClick(GameObject _go)
         {
             Debug.LogError("点击的帧数111 = " + Time.frameCount);
