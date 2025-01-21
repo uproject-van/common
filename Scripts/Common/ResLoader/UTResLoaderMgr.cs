@@ -29,9 +29,47 @@ namespace UTGame
             }
         }
 
-        /*****************
-         * 加载本地资源对象的处理函数
-         **/
+        private bool _m_bIsInit;
+
+        public void init()
+        {
+            if(_m_bIsInit)
+                return;
+            
+            _initYooAsset();
+            _m_bIsInit = true;
+        }
+        /// <summary>
+        /// 初始话资源管理
+        /// </summary>
+        private void _initYooAsset()
+        {
+            YooAssets.Initialize();
+            // 创建资源包裹类
+            string packageName = "DefaultPackage";
+            ResourcePackage package = YooAssets.TryGetPackage(packageName);
+            if (package == null)
+                package = YooAssets.CreatePackage(packageName);
+            
+            EPlayMode playMode = EPlayMode.EditorSimulateMode;
+            // 编辑器下的模拟模式
+            InitializationOperation initializationOperation = null;
+            if (playMode == EPlayMode.EditorSimulateMode)
+            {
+                var buildResult = EditorSimulateModeHelper.SimulateBuild(packageName);
+                var packageRoot = buildResult.PackageRootDirectory;
+                var createParameters = new EditorSimulateModeParameters();
+                createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
+                initializationOperation = package.InitializeAsync(createParameters);
+            }
+            
+        }
+        
+        /// <summary>
+        /// 加载本地资源对象的处理函数
+        /// </summary>
+        /// <param name="_assetName"></param>
+        /// <param name="_delegate"></param>
         public void loadRefdataObjAsset(string _assetName,
             _assetDownloadedDelegate _delegate)
         {
@@ -52,16 +90,6 @@ namespace UTGame
                     }
                 };
             }
-        }
-
-        public void loadSynRefdataObjAsset<T>(string _assetPath,
-            string _objName,
-            _assetDownloadedDelegate _delegate,
-            _assetDownloadedDelegate _lateDelegate,
-            Action<Object> _localLoadDelegate
-        )
-            where T : Object
-        {
         }
     }
 }

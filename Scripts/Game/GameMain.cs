@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using YooAsset;
 
 namespace UTGame
@@ -26,6 +27,12 @@ namespace UTGame
         [Header("全局缺省图片")]
         public Sprite globeEmptySpr;
 
+        [Header("当前运行模式")]
+        public EPlayMode playMode;
+        
+        [Header("默认包名")]
+        public string packageName = "DefaultPackage";
+        
         public GameObject testGo;
 
         private void Start()
@@ -38,6 +45,7 @@ namespace UTGame
                 UTLog.Error("Multiple GameMain Mono!!!");
                 return;
             }
+            YooAssets.Initialize();
             //设置对象不被删除
             DontDestroyOnLoad(this);
             //进行 task 初始化
@@ -45,83 +53,15 @@ namespace UTGame
             //判断本对象是否有加载ALMonoTaskMono脚本，无则自动添加
             if (null == gameObject.GetComponent<UTMonoTaskMono>())
                 gameObject.AddComponent<UTMonoTaskMono>();
+            //判断本对象是否有加载UTMonoCoroutineDealer脚本，无则自动添加
+            if (null == gameObject.GetComponent<UTMonoCoroutineDealer>())
+                gameObject.AddComponent<UTMonoCoroutineDealer>();
             
             //资源管理初始化
-            _initYooAsset();
-
-
+            UTYooAssetMgr.instance.init();
             UGUICommon.combineBtnClick(testGo, _testGoDidClick);
 
         }
-
-        /// <summary>
-        /// 初始话YooAsset
-        /// </summary>
-        private void _initYooAsset()
-        {
-            YooAssets.Initialize();
-            
-            // 创建资源包裹类
-            string packageName = "DefaultPackage";
-            ResourcePackage package = YooAssets.TryGetPackage(packageName);
-            if (package == null)
-                package = YooAssets.CreatePackage(packageName);
-
-            EPlayMode playMode = EPlayMode.EditorSimulateMode;
-            // 编辑器下的模拟模式
-            InitializationOperation initializationOperation = null;
-            if (playMode == EPlayMode.EditorSimulateMode)
-            {
-                var buildResult = EditorSimulateModeHelper.SimulateBuild(packageName);
-                var packageRoot = buildResult.PackageRootDirectory;
-                var createParameters = new EditorSimulateModeParameters();
-                createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
-                initializationOperation = package.InitializeAsync(createParameters);
-            }
-
-            initializationOperation.Completed += ((_oprera) =>
-            {
-                // 如果初始化失败弹出提示界面
-                if (_oprera.Status != EOperationStatus.Succeed)
-                {
-                    Debug.LogWarning($"{_oprera.Error}");
-                    return;
-                }
-            
-                YooAssets.SetDefaultPackage(package);
-                RequestPackageVersionOperation reqOperation = package.RequestPackageVersionAsync();
-                reqOperation.Completed += ((_op) =>
-                {
-                    if (_op.Status != EOperationStatus.Succeed)
-                    {
-                        Debug.LogWarning($"{_op.Error}");
-                        return;
-                    }
-
-                    UpdatePackageManifestOperation manifestOp = package.UpdatePackageManifestAsync(reqOperation.PackageVersion);
-                    manifestOp.Completed += (_op2) =>
-                    {
-                        if (_op2.Status != EOperationStatus.Succeed)
-                        {
-                            Debug.LogWarning($"{_op2.Error}");
-                            return;
-                        }
-                        
-                        AssetHandle handle1 =  YooAssets.LoadAssetAsync("general");
-                        handle1.Completed += (_handle) =>
-                        {
-                            Debug.LogError($"{_handle}");
-                        };
-                    };
-
-                });
-                
-            });
-
-
-        }
-
-
         
         private void _testGoDidClick(GameObject _go)
         {
@@ -141,12 +81,6 @@ namespace UTGame
         /// <param name="_e"></param>
         public void onUnKnowErrorOccurred(Exception _e)
         {
-        }
-
-        //点击间隔帧数 表示3帧触发一次点击
-        public int getOneClickPerFrame()
-        {
-            return 3;
         }
     }
 }

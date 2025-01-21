@@ -5,9 +5,9 @@
         private string _m_sAssetName;
         private string _m_sObjName;
 
-        public UTBaseListRefCore(string assetName)
+        public UTBaseListRefCore(string _assetName)
         {
-            _m_sAssetName = assetName;
+            _m_sAssetName = _assetName;
         }
 
         /** 获取加载资源对象的路径 */

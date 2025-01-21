@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using UnityEngine;
-using Object = UnityEngine.Object;
+using ALPackage;
+using YooAsset;
+using Object = System.Object;
 
 namespace UTGame
 {
     /*********************
      * 数据集合中心管理对象
      **/
-    public abstract class _ATUTBaseRefListCore<T> : _TUTBaseRefListCore<T>, _IUTInitRefObj where T : _IUTBaseRefObj
+    public abstract class _ATUTBaseRefMapListCore<T> : _TUTBaseRefMapListCore<T>, _IUTInitRefObj where T : _IUTBaseRefObj
     {
         /** 初始化状态位 */
         private bool _m_bInit;
         /** 回调处理函数 */
         private Action _m_dDelegate;
         private Action<Type, _IUTInitRefObj> _m_dFailDelegate;
-
-        protected _ATUTBaseRefListCore()
+        
+        protected _ATUTBaseRefMapListCore() 
         {
             _m_bInit = false;
         }
@@ -26,7 +30,7 @@ namespace UTGame
         /***********
          * 初始化操作，开始下载并加载对应信息
          **/
-        public void init(Action _doneDelegate, Action<Type, _IUTInitRefObj> _onFail)
+        public void init(Action _doneDelegate, System.Action<Type, _IUTInitRefObj> _onFail)
         {
             if (_m_bInit)
             {
@@ -42,14 +46,7 @@ namespace UTGame
 
             _m_bInit = true;
             //开始加载
-            UTYooAssetMgr.instance.loadRefdataObjAsset(_m_assetName, _onAssetLoaded);
-        }
-
-        public void discard()
-        {
-            _m_bInit = false;
-            _clear();
-            _reset();
+            UTYooAssetMgr.instance.loadRefdataObjAsset(_assetName, _onAssetLoaded);
         }
 
         /*******************
@@ -122,14 +119,14 @@ namespace UTGame
                 _reset(); //try finally防止调用过程中有异常导致没置空
             }
         }
-
+        
         protected void _reset()
         {
             _m_dDelegate = null;
             _m_dFailDelegate = null;
         }
-        
+
         /** 获取加载资源对象的路径 */
-        protected abstract string _m_assetName { get; }
+        protected abstract string _assetName { get; }
     }
 }
