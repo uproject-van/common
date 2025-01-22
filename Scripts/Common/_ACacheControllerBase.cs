@@ -138,7 +138,7 @@ namespace UTGame
                 //根据增量创建
                 _addCache();
 
-                //增加特效超出上限的警告
+                //增加超出上限的警告
                 if (_m_lTotalCacheList.Count > _m_iIsWarningCount)
                 {
 #if UNITY_EDITOR
