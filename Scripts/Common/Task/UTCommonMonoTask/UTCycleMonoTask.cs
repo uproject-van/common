@@ -4,6 +4,7 @@ namespace UTGame
     {
         /** 刷新接口 */
         private _IUTBaseTaskInterface _m_iTaskInterface;
+
         /** 刷新的序列号 */
         private long _m_iShowSerialize;
 
@@ -13,9 +14,9 @@ namespace UTGame
             _m_iShowSerialize = _interface.showOpSerialize;
         }
 
-        /*******************
-         * 任务具体的执行函数
-         **/
+        /// <summary>
+        /// 任务具体的执行函数
+        /// </summary>
         public void deal()
         {
             if (_m_iTaskInterface.showOpSerialize != _m_iShowSerialize)
@@ -25,7 +26,7 @@ namespace UTGame
             _m_iTaskInterface.tick();
 
             //加入下一帧
-            UTMonoTaskMgr.instance.addMonoTask(this,0.1f);
+            UTMonoTaskMgr.instance.addMonoTask(this, 0.1f);
         }
     }
 }
