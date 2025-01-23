@@ -14,9 +14,9 @@ namespace UTGame
             get { return id; }
         }
         public long id; //主id
-        public long type_id; //类型id
+        public EObstacleType type;//障碍物类型
+        public long stage_id;//障碍物阶段
         public string res_path_id;//资源路径
-
     }
 
     public class UTSOObstacleRefSet : _TUTSOBaseRefSet<UTObstacleRefObj>

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using UnityEngine;
-using ALPackage;
-using YooAsset;
 using Object = System.Object;
 
 namespace UTGame
@@ -30,7 +26,7 @@ namespace UTGame
         /***********
          * 初始化操作，开始下载并加载对应信息
          **/
-        public void init(Action _doneDelegate, System.Action<Type, _IUTInitRefObj> _onFail)
+        public void init(Action _doneDelegate, Action<Type, _IUTInitRefObj> _onFail)
         {
             if (_m_bInit)
             {

@@ -1,10 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UTGame
 {
     public partial class GCommon
     {
+
+        public static T getRandom<T>(List<T> _list)
+        {
+            if (null == _list || _list.Count == 0)
+                return default(T);
+            
+            int randomIdx = Random.Range(0, _list.Count);
+            return _list[randomIdx];
+        }
+        
         #region 设置选中状态显隐
 
         public static ESelectStatus GetStatus(bool _isSelect)
