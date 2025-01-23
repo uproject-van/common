@@ -51,8 +51,28 @@ namespace UTGame
             if (_m_saiSelectAllItem != null)
                 _m_saiSelectAllItem.regSelectFunc(UTExportSettingMgr.instance.setIsSelectAll);
 
-            _regMenuItem(new UTGeneralRefExportMenu("generalref", _judgeTagCanShow));//常量表
+            //常量表
+            _regMenuItem(new UTGeneralRefExportMenu("generalref", _judgeTagCanShow));
 
+            #region 障碍物表
+            //障碍物类型表
+            _regMenuItem(new _TUTAutoExportRefMenu<UTObstacleTypeRefObj, UTSOObstacleTypeRefSet>
+            (EUTExportSettingEnum.OBSTACLE_TYPE, UTSOObstacleTypeRefSet.assetName, "obstacle_type"
+                , "障碍物类型表(obstacle_type)", _judgeTagCanShow));
+            
+            //障碍物表
+            _regMenuItem(new _TUTAutoExportRefMenu<UTObstacleRefObj, UTSOObstacleRefSet>
+            (EUTExportSettingEnum.OBSTACLE, UTSOObstacleRefSet.assetName, "obstacle"
+                , "障碍物表(obstacle)", _judgeTagCanShow));
+            #endregion
+            
+             #region 阶段表
+             //阶段表
+             _regMenuItem(new _TUTAutoExportRefMenu<UTStageRefObj, UTSOStageRefSet>
+             (EUTExportSettingEnum.STAGE, UTSOStageRefSet.assetName, "stage"
+                 , "阶段表(stage)", _judgeTagCanShow));
+            #endregion
+            
             UTExportSettingMgr.instance.onSelectAllChg += _onSelectAllChg;
             UTExportSettingMgr.instance.onSubExportMenuSelectChg += _onSubExportMenuSelectChg;
         }

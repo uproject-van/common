@@ -10,7 +10,7 @@ using Excel;
 
 namespace UTGame
 {
-	public abstract class UtBaseExportMenuItemEx : _AUTBaseExportMenuItem {
+	public abstract class UTBaseExportMenuItemEx : _AUTBaseExportMenuItem {
 
 	    protected EUTExportSettingEnum exportEnum;
 	    protected int line;
@@ -21,7 +21,7 @@ namespace UTGame
 	    //判断是否可以显示的处理函数
 	    private Func<string,string, bool> _m_fJudgeCanShowFunc;
 
-	    public UtBaseExportMenuItemEx(string _tag, EUTExportSettingEnum _exportEnum, Func<string,string, bool> _judgeCanShowFunc)
+	    public UTBaseExportMenuItemEx(string _tag, EUTExportSettingEnum _exportEnum, Func<string,string, bool> _judgeCanShowFunc)
 	    {
 	        _m_sTag = _tag;
 	        _m_fJudgeCanShowFunc = _judgeCanShowFunc;

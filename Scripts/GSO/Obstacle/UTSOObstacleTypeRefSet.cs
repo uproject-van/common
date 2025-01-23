@@ -25,7 +25,7 @@ namespace UTGame
          **/
         public static string assetName
         {
-            get { return "obstacleType"; }
+            get { return "obstacle_type"; }
         }
     }
 }

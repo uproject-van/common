@@ -68,7 +68,7 @@ namespace UTGame
          **/
         public static string assetName
         {
-            get { return "obstacle"; }
+            get { return "stage"; }
         }
     }
 }

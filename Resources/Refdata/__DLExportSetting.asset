@@ -15,3 +15,9 @@ MonoBehaviour:
   valueList:
   - key: GENERAL
     value: "#root#/Resources/Refdata/excel~/general_\u5E38\u91CF\u8868.xlsx"
+  - key: OBSTACLE_TYPE
+    value: "#root#/Resources/Refdata/excel~/obstacle_\u969C\u788D\u7269\u8868.xlsx"
+  - key: OBSTACLE
+    value: "#root#/Resources/Refdata/excel~/obstacle_\u969C\u788D\u7269\u8868.xlsx"
+  - key: STAGE
+    value: "#root#/Resources/Refdata/excel~/stage_\u9636\u6BB5\u8868.xlsx"

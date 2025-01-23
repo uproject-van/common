@@ -11,7 +11,7 @@ namespace UTGame
     }
 
     public class
-        UTGeneralRefExportMenu : UtBaseExportMenuItem<UTGeneralExportValuePair, UTGeneralRefObj, UTSOGeneralRefSet>
+        UTGeneralRefExportMenu : UTBaseExportMenuItem<UTGeneralExportValuePair, UTGeneralRefObj, UTSOGeneralRefSet>
     {
         public UTGeneralRefExportMenu(string _tag, Func<string, string, bool> _judgeCanShowFunc)
             : base("general", EUTExportSettingEnum.GENERAL, UTSOGeneralRefSet.assetName,
