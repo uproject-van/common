@@ -107,7 +107,9 @@ namespace UTGame
             //生成需要的障碍物
             while (_m_lastObInitY < _m_needObInitY)
             {
-                popObstacle();
+                bool isSuc = popObstacle();
+                if(!isSuc)
+                    break;
             }
         }
 
@@ -117,20 +119,20 @@ namespace UTGame
         /// <param name="_parTrans"></param>
         /// <param name="_type"></param>
         /// <param name="_color"></param>
-        public void popObstacle()
+        public bool popObstacle()
         {
             if (!_check())
-                return;
+                return false;
 
             //当前阶段信息
             UTStageRefObj stageRefObj = UTBattleMain.instance.getCurStage();
             if (null == stageRefObj)
-                return;
+                return false;
 
             //获取障碍物
             _AUTObstacleBase obstacle = _getObstacle(stageRefObj.getRandomObstacleType());
             if (null == obstacle)
-                return;
+                return false;
 
             obstacle.transform.SetParent(_m_initParTrans);
             //随机一个y轴距离
@@ -147,6 +149,7 @@ namespace UTGame
             obstacle.setPos(new Vector2(_m_lastObInitY, xStartX));
             //设置数据
             obstacle.setData(stageRefObj.getRandomObstacleRefObj(), stageRefObj.getRandomColor());
+            return true;
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using YooAsset;
 
 namespace UTGame
@@ -70,6 +71,8 @@ namespace UTGame
             UTCommonTaskController.CommonActionAddNextFrameTask(() =>
             {
                 Debug.LogError("执行的帧数 = " + Time.frameCount);
+                //切换场景
+                SceneManager.LoadScene("Game", LoadSceneMode.Additive);
             });
 
             Debug.LogError("点击的帧数222 = " + Time.frameCount);

@@ -9,8 +9,6 @@ namespace UTGame
     {
         [Header("移动速度")]
         public float speed;
-
-        [Header("开始位置")]
-        public Transform startTrans;
+        
     }
 }

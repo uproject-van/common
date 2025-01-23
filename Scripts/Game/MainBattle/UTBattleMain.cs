@@ -9,7 +9,7 @@ namespace UTGame
     //战斗管理类
     public class UTBattleMain : MonoBehaviour
     {
-        [Header("碰撞物生成父节点")]
+        [Header("障碍物生成父节点")]
         public Transform obstacleInitPar;
 
         [Header("主游戏对象")]
@@ -44,16 +44,20 @@ namespace UTGame
                 return;
             }
             
-            if (null == mainPlayer)
+            if (!_check())
                 return;
 
             _m_rigidbody2D = mainPlayer.GetComponent<Rigidbody2D>();
             _m_obstacleMgr = new UTObstacleMgr();
             _m_obstacleMgr.init();
+            _m_obstacleMgr.start(obstacleInitPar);
         }
 
         private void OnDisable()
         {
+            if (!_check())
+                return;
+            
             _m_obstacleMgr.reset();
         }
 
@@ -64,7 +68,10 @@ namespace UTGame
 
         public void FixedUpdate()
         {
-            if (null == _m_rigidbody2D || null == _m_rigidbody2D)
+            if (!_check())
+                return;
+            
+            if (null == _m_rigidbody2D)
                 return;
 
             // 移动
@@ -84,12 +91,12 @@ namespace UTGame
         /// </summary>
         private int _calCurFloor()
         {
-            if (null == mainPlayer)
+            if (!_check())
                 return 0;
 
             float moveY = mainPlayer.transform.localPosition.y;
             int curFloor = (int)(moveY / 1000);
-            UTLog.Error($"moveY = {moveY} curFloor = {curFloor}");
+            Debug.LogError($"moveY = {moveY} curFloor = {curFloor}");
             return curFloor;
         }
 
@@ -99,6 +106,9 @@ namespace UTGame
         /// <returns></returns>
         public UTStageRefObj getCurStage()
         {
+            if (!_check())
+                return null;
+            
             int curFloor = _calCurFloor();
             //TODO 从配表取
             List<UTStageRefObj> stageList = new List<UTStageRefObj>();
@@ -117,6 +127,14 @@ namespace UTGame
             return null;
         }
 
+        private bool _check()
+        {
+            if (null == mainPlayer || null == obstacleInitPar)
+                return false;
+
+            return true;
+        }
+        
         #endregion
     }
 }
