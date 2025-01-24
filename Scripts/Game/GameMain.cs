@@ -72,7 +72,30 @@ namespace UTGame
             {
                 Debug.LogError("执行的帧数 = " + Time.frameCount);
                 //切换场景
-                SceneManager.LoadScene("Game", LoadSceneMode.Additive);
+                SceneHandle handle = YooAssets.LoadSceneAsync("Game", LoadSceneMode.Single);
+                if (null != handle)
+                {
+                    handle.Completed += (_handle) =>
+                    {
+                      if (_handle.Status == EOperationStatus.Succeed)
+                      {
+                          Debug.Log("场景加载成功！");
+
+                          // 查找场景中带有特定标签的相机并移除
+                          GameObject[] cameras = GameObject.FindGameObjectsWithTag("cameraTag");
+                          foreach (var camera in cameras)
+                          {
+                              Debug.Log($"移除相机: {camera.name}");
+                              Destroy(camera);
+                          }
+                      }
+                      else
+                      {
+                          Debug.LogError($"场景加载失败：{handle.LastError}");
+                      }
+                    };
+                }
+                //SceneManager.LoadScene("Game", LoadSceneMode.Additive);
             });
 
             Debug.LogError("点击的帧数222 = " + Time.frameCount);

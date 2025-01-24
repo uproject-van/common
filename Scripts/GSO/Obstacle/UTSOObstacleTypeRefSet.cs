@@ -15,6 +15,8 @@ namespace UTGame
         }
 
         public EObstacleType type; //主id
+        //可生成障碍物id列表
+        public List<long> obstacle_id_list;
         public string effect_name;//效果 后面自定义  
     }
 

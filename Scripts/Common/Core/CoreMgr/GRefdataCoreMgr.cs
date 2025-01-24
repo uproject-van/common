@@ -24,6 +24,11 @@ namespace UTGame
             UTSOGeneralRefSet.assetName);
         public UTGeneralRefObj npGeneral = null;
     
+        public UTBaseListRefCore<UTObstacleTypeRefObj> obstacleTypeListCore = new UTBaseListRefCore<UTObstacleTypeRefObj>(UTSOObstacleTypeRefSet.assetName);
+        public UTBaseListRefCore<UTObstacleRefObj> obstacleListCore = new UTBaseListRefCore<UTObstacleRefObj>(UTSOObstacleRefSet.assetName);
+        public UTBaseListRefCore<UTStageRefObj> stageListCore = new UTBaseListRefCore<UTStageRefObj>(UTSOStageRefSet.assetName);
+
+        
         //是否初始化完成
         private bool _m_bIsInitDone = false;
 
@@ -38,8 +43,9 @@ namespace UTGame
         //初始化加载队列
         protected override void _initLoadList(List<_IUTInitRefObj> _list)
         {
-            _list.Add(npGeneralMap);//通用配置表
-            
+            //通用配置表
+            _list.Add(npGeneralMap);
+            _list.Add(stageListCore);
         }
 
 

@@ -3,7 +3,6 @@
     public class UTBaseListRefCore<T> : _ATUTBaseRefListCore<T> where T : _IUTBaseRefObj
     {
         private string _m_sAssetName;
-        private string _m_sObjName;
 
         public UTBaseListRefCore(string _assetName)
         {

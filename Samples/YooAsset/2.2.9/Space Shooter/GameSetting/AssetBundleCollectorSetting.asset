@@ -119,6 +119,14 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+      - CollectPath: Assets/Scenes
+        CollectorGUID: 0d94bff9db41f4294bde231bac00e7b6
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: ugui
       GroupDesc: "\u9762\u677F"
       AssetTags: 

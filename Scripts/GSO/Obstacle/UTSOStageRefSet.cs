@@ -20,24 +20,7 @@ namespace UTGame
         public UTIntRange y_init_range; //y可生成的区间范围 1-20
         public List<EColor> color_list; //可生成的颜色类型
         public List<EObstacleType> type_list; //可生成的障碍物类型
-
-#if IN_GAME
-        //当前阶段可以生成的障碍物列表
-        private List<UTObstacleRefObj> _m_obstacleRefList = new List<UTObstacleRefObj>();
-
-        public void addObstacleRef(UTObstacleRefObj _refObj)
-        {
-            if (null == _refObj || _m_obstacleRefList.Contains(_refObj))
-                return;
-
-            _m_obstacleRefList.Add(_refObj);
-        }
-
-        public UTObstacleRefObj getRandomObstacleRefObj()
-        {
-            return GCommon.getRandom(_m_obstacleRefList);
-        }
-#endif
+        
 
         public EObstacleType getRandomObstacleType()
         {

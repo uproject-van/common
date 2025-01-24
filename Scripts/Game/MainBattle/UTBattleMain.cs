@@ -97,7 +97,7 @@ namespace UTGame
             float moveY = mainPlayer.transform.localPosition.y;
             int curFloor = (int)(moveY / 1000);
             Debug.LogError($"moveY = {moveY} curFloor = {curFloor}");
-            return curFloor;
+            return curFloor + 1;
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace UTGame
                 return null;
             
             int curFloor = _calCurFloor();
-            //TODO 从配表取
-            List<UTStageRefObj> stageList = new List<UTStageRefObj>();
+            //从配表取
+            List<UTStageRefObj> stageList = GRefdataCoreMgr.instance.stageListCore.RefList;
             UTStageRefObj temp = null;
             for (int i = stageList.Count - 1; i >= 0; i--)
             {

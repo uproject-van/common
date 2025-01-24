@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.SceneManagement;
 using YooAsset;
 
 namespace UTGame
@@ -63,7 +64,7 @@ namespace UTGame
             _m_stateMachine.addState(updateManiState);
             _m_stateMachine.addState(createDownState);
             _m_stateMachine.addState(initDoneState);
-            
+
             //进度监控
             addChidNode(initState, 1);
             addChidNode(reqVState, 1);
@@ -98,7 +99,7 @@ namespace UTGame
         public void loadRefdataObjAsset(string _assetName,
             _assetDownloadedDelegate _delegate)
         {
-            if (_m_bIsInit)
+            if (!_m_bIsInit)
                 return;
 
             AssetHandle handle = YooAssets.LoadAssetAsync(_assetName);
@@ -116,6 +117,28 @@ namespace UTGame
                         if (null != _delegate)
                             _delegate(true, _handle.AssetObject);
                     }
+                };
+            }
+        }
+
+        /// <summary>
+        /// 加载场景处理函数
+        /// </summary>
+        /// <param name="_assetName"></param>
+        /// <param name="_delegate"></param>
+        public void loadSceneAsset(string _assetName,
+            Action _doneAction)
+        {
+            if (!_m_bIsInit)
+                return;
+
+            SceneHandle handle = YooAssets.LoadSceneAsync(_assetName, LoadSceneMode.Additive,LocalPhysicsMode.None,true);
+            if (null != handle)
+            {
+                handle.Completed += (_handle) =>
+                {
+                    if (null != _doneAction)
+                        _doneAction();
                 };
             }
         }
