@@ -96,7 +96,7 @@ namespace UTGame
         /// </summary>
         /// <param name="_assetName"></param>
         /// <param name="_delegate"></param>
-        public void loadRefdataObjAsset(string _assetName,
+        public void LoadAssetAsync(string _assetName,
             _assetDownloadedDelegate _delegate)
         {
             if (!_m_bIsInit)

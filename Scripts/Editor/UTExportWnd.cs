@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using Excel;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace UTGame
@@ -116,6 +117,48 @@ namespace UTGame
             UTExportSettingMgr.instance.loadLocalSave();
         }
 
+        [MenuItem("UTAssets/快速启动游戏 %#i")]
+        private static void QuickStartGame()
+        {
+            if (EditorApplication.isPlaying)
+            {
+                Debug.LogWarning("请先停止运行，才能切换场景！");
+                return;
+            }
+
+            string sceneName = "Lunch";
+            string scenePath = FindScenePath(sceneName);
+
+            if (!string.IsNullOrEmpty(scenePath))
+            {
+                EditorSceneManager.OpenScene(scenePath);
+                Debug.Log($"加载场景: {sceneName}");
+                // 启动游戏
+                EditorApplication.isPlaying = true;
+            }
+            else
+            {
+                Debug.LogError($"找不到场景: {sceneName}，请检查场景是否在 Build Settings 中！");
+            }
+        }
+        
+        // 根据场景名称查找路径（包括未在 Build Settings 中的场景）
+        private static string FindScenePath(string sceneName)
+        {
+            // 在 Assets 文件夹中查找所有 .unity 文件
+            string[] sceneGUIDs = AssetDatabase.FindAssets($"t:Scene {sceneName}");
+
+            foreach (string guid in sceneGUIDs)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                if (path.EndsWith($"{sceneName}.unity"))
+                {
+                    return path;
+                }
+            }
+            return null;
+        }
+        
         /***********
          * excel读取的相关处理文件
          **/

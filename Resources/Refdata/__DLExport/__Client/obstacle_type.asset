@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refList:
   - type: 1
-    effect_name: 
-  - type: 1
+    prefab_name: obstacle_fixed
+    obstacle_id_list: 0100000000000000020000000000000003000000000000000400000000000000
     effect_name: 

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: stage
   m_EditorClassIdentifier: 
   refList:
-  - floor: 1
+  - stage_id: 1
+    floor: 1
     x_init_pos_list:
     - _m_iMin: 1
       _m_iMax: 5
@@ -22,7 +23,8 @@ MonoBehaviour:
       _m_iMax: 3
     color_list: 0100000002000000
     type_list: 01000000
-  - floor: 50
+  - stage_id: 2
+    floor: 50
     x_init_pos_list:
     - _m_iMin: 1
       _m_iMax: 10

@@ -45,6 +45,8 @@ namespace UTGame
         {
             //通用配置表
             _list.Add(npGeneralMap);
+            _list.Add(obstacleTypeListCore);
+            _list.Add(obstacleListCore);
             _list.Add(stageListCore);
         }
 
@@ -64,7 +66,7 @@ namespace UTGame
         else
             NPMesMgr.instance.showOneBtnMes(TextTranslate.instance.getLanguage(TransKeyConst.init_gameres_fail_str, _class.ToString()), TextTranslate.instance.getLanguage(TransKeyConst.confirm), _obj.finalDelegate);
 #endif
-
+            UTLog.Error("配表加载失败!!!");
             //设置初始化完成
             _m_bIsInitDone = true;
         }

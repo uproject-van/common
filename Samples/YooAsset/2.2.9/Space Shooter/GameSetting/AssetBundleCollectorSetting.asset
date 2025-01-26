@@ -77,6 +77,14 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+      - CollectPath: Assets/Resources/Prefab/Obstacle/Fixed
+        CollectorGUID: 21f409bbc5d494b8d80b9e38fc0fcc2e
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: shader
       GroupDesc: "\u7740\u8272\u5668"
       AssetTags: 

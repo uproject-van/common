@@ -7,7 +7,7 @@ namespace UTGame
     /// <summary>
     /// 碰撞物的缓存类
     /// </summary>
-    public class UTObstacleCache:_ACacheControllerBase<_AUTObstacleBase,GameObject>
+    public class UTObstacleCache:_ACacheControllerBase<GameObject,GameObject>
     {
         public UTObstacleCache(int _minCount, int _maxCount) : base(_minCount, _maxCount)
         {
@@ -25,17 +25,17 @@ namespace UTGame
         {
         }
 
-        protected override _AUTObstacleBase _createItem(GameObject _template)
+        protected override GameObject _createItem(GameObject _template)
         {
-            return UGUICommon.cloneGameObj<_AUTObstacleBase>(_template);
+            return UGUICommon.cloneGameObj(_template);
         }
 
-        protected override void _discardItem(_AUTObstacleBase _item)
+        protected override void _discardItem(GameObject _item)
         {
             UGUICommon.releaseGameObj(_item);
         }
 
-        protected override void _resetItem(_AUTObstacleBase _item)
+        protected override void _resetItem(GameObject _item)
         {
         }
     }

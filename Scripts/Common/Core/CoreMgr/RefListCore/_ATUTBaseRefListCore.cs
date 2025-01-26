@@ -42,7 +42,7 @@ namespace UTGame
 
             _m_bInit = true;
             //开始加载
-            UTYooAssetMgr.instance.loadRefdataObjAsset(_m_assetName, _onAssetLoaded);
+            UTYooAssetMgr.instance.LoadAssetAsync(_m_assetName, _onAssetLoaded);
         }
 
         public void discard()

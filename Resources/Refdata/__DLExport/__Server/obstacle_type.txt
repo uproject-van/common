@@ -1,3 +1,2 @@
-type	effect_name	
-FIXED		
-FIXED		
+type	effect_name	prefab_name	obstacle_id_list	
+FIXED		obstacle_fixed	1;2;3;4	

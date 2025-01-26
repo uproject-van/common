@@ -21,7 +21,17 @@ namespace UTGame
         NONE,
         FIXED,
     }
-
+    
+    /// <summary>
+    /// 碰撞物的大小类型
+    /// </summary>
+    public enum EObstacleSize
+    {
+        SMALL,
+        MEDIUM,
+        LARGE,
+    }
+    
     //触发效果枚举
     public enum EObstacleEffectType
     {

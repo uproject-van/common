@@ -30,7 +30,7 @@ namespace UTGame
 
         //碰撞物管理类
         private UTObstacleMgr _m_obstacleMgr;
-        
+
         private Rigidbody2D _m_rigidbody2D;
 
         private void Start()
@@ -43,34 +43,35 @@ namespace UTGame
                 UTLog.Error("Multiple BattleMain Mono!!!");
                 return;
             }
-            
+
             if (!_check())
                 return;
 
             _m_rigidbody2D = mainPlayer.GetComponent<Rigidbody2D>();
             _m_obstacleMgr = new UTObstacleMgr();
-            _m_obstacleMgr.init();
-            _m_obstacleMgr.start(obstacleInitPar);
+            _m_obstacleMgr.init(() =>
+            {
+                _m_obstacleMgr.start(obstacleInitPar);
+            });
         }
 
         private void OnDisable()
         {
             if (!_check())
                 return;
-            
+
             _m_obstacleMgr.reset();
         }
 
         public void Update()
         {
-            
         }
 
         public void FixedUpdate()
         {
             if (!_check())
                 return;
-            
+
             if (null == _m_rigidbody2D)
                 return;
 
@@ -79,11 +80,11 @@ namespace UTGame
             Vector3 newVelocity = new Vector3(variableJoystick.Horizontal * mainPlayer.speed * Time.fixedDeltaTime,
                 currentVelocity.y, currentVelocity.z);
             _m_rigidbody2D.velocity = newVelocity;
-            
+
             //更新当前层数
-            UGUICommon.setLabelTxt(floorTxt,_calCurFloor());
+            UGUICommon.setLabelTxt(floorTxt, _calCurFloor());
         }
-        
+
         #region 工具类
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace UTGame
 
             float moveY = mainPlayer.transform.localPosition.y;
             int curFloor = (int)(moveY / 1000);
-            Debug.LogError($"moveY = {moveY} curFloor = {curFloor}");
+            //Debug.LogError($"moveY = {moveY} curFloor = {curFloor}");
             return curFloor + 1;
         }
 
@@ -108,7 +109,7 @@ namespace UTGame
         {
             if (!_check())
                 return null;
-            
+
             int curFloor = _calCurFloor();
             //从配表取
             List<UTStageRefObj> stageList = GRefdataCoreMgr.instance.stageListCore.RefList;
@@ -134,7 +135,7 @@ namespace UTGame
 
             return true;
         }
-        
+
         #endregion
     }
 }

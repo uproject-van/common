@@ -669,6 +669,24 @@ namespace UTGame
 
         #endregion
 
+        public static GameObject cloneGameObj(GameObject _temp)
+        {
+            if (null == _temp)
+            {
+                Debug.LogError("when clone game object temp is null !!!");
+                return null;
+            }
+
+            GameObject addGo = GameObject.Instantiate(_temp);
+            if (addGo != null)
+            {
+                addGo.transform.position = Vector3.zero;
+                addGo.transform.localScale = Vector3.one;
+                addGo.transform.rotation = Quaternion.identity;
+            }
+            return addGo;
+        }
+        
         //克隆一个go
         public static T cloneGameObj<T>(GameObject _temp) where T : MonoBehaviour
         {
@@ -684,7 +702,7 @@ namespace UTGame
 
             return cloneGameObj(wnd);
         }
-
+        
         public static T cloneGameObj<T>(T _temp) where T : MonoBehaviour
         {
             if (null == _temp)
@@ -717,6 +735,14 @@ namespace UTGame
             GameObject.Destroy(_obj.gameObject);
         }
 
+        public static void releaseGameObj(GameObject _obj)
+        {
+            if (null == _obj)
+                return;
+
+            GameObject.Destroy(_obj);
+        }
+        
         /// <summary>
         /// 设置不同状态
         /// </summary>

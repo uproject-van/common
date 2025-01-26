@@ -8,6 +8,8 @@ namespace UTGame
     public partial class GCommon
     {
 
+        #region 获取随机方法
+
         public static T getRandom<T>(List<T> _list)
         {
             if (null == _list || _list.Count == 0)
@@ -16,6 +18,19 @@ namespace UTGame
             int randomIdx = Random.Range(0, _list.Count);
             return _list[randomIdx];
         }
+        
+        // 从枚举类型中随机返回一个值
+        public static T getRandom<T>() where T : Enum
+        {
+            // 获取枚举所有值
+            Array values = Enum.GetValues(typeof(T));
+            // 使用随机数选择一个值
+            int randomIdx = Random.Range(0, values.Length);
+            return (T)values.GetValue(randomIdx);
+        }
+
+        #endregion
+
         
         #region 设置选中状态显隐
 
@@ -93,7 +108,6 @@ namespace UTGame
         #endregion
     }
     
-    
     /// <summary>
     /// 自动导出的时候根据属性判断对应值是否可为空
     /// </summary>
@@ -119,5 +133,4 @@ namespace UTGame
             ignoreReading = _ignoreReading;
         }
     }
-    
 }

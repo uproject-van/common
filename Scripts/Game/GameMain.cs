@@ -62,15 +62,14 @@ namespace UTGame
             UTYooAssetMgr.instance.init();
             UGUICommon.combineBtnClick(testGo, _testGoDidClick);
 
+            //固定相机的参数 防止被改到
+            Camera.main.transform.position = new Vector3(0,0,-10);
         }
         
         private void _testGoDidClick(GameObject _go)
         {
-            Debug.LogError("点击的帧数111 = " + Time.frameCount);
-
             UTCommonTaskController.CommonActionAddNextFrameTask(() =>
             {
-                Debug.LogError("执行的帧数 = " + Time.frameCount);
                 //切换场景
                 SceneHandle handle = YooAssets.LoadSceneAsync("Game", LoadSceneMode.Single);
                 if (null != handle)
@@ -97,8 +96,6 @@ namespace UTGame
                 }
                 //SceneManager.LoadScene("Game", LoadSceneMode.Additive);
             });
-
-            Debug.LogError("点击的帧数222 = " + Time.frameCount);
         }
 
         /// <summary>

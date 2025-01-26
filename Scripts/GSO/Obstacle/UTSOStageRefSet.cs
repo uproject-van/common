@@ -12,9 +12,10 @@ namespace UTGame
     {
         public long _refId
         {
-            get { return floor; }
+            get { return stage_id; }
         }
 
+        public long stage_id;
         public long floor; //层数，大于等于这个层数表示达到当前阶段
         public List<UTIntRange> x_init_pos_list; //x可生成的区间 1-10
         public UTIntRange y_init_range; //y可生成的区间范围 1-20
@@ -40,7 +41,9 @@ namespace UTGame
 
         public int getRandomY()
         {
-            return y_init_range.getRandomValue();
+            int randomY = y_init_range.getRandomValue();
+            UTLog.Error($"randomY_Idx = {randomY}");
+            return randomY;
         }
     }
 
