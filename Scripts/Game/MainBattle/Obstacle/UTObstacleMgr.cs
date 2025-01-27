@@ -13,10 +13,10 @@ namespace UTGame
         //是否初始化
         private bool _m_bIsInit;
 
-        //最远的一个障碍物生成位置 这是UI位置
+        //最远的一个障碍物生成位置 这是世界位置
         private float _m_lastObInitY;
 
-        //当前需要生成的障碍物位置 这是UI位置
+        //当前需要生成的障碍物位置 这是世界位置
         private float _m_needObInitY;
 
         private Transform _m_initParTrans;
@@ -41,6 +41,11 @@ namespace UTGame
             get { return _m_showOpSerialize; }
         }
 
+        public bool isInit
+        {
+            get { return _m_bIsInit; }
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -54,11 +59,9 @@ namespace UTGame
                 return;
             }
 
-            _m_bIsInit = true;
-            //需要生成到的位置
-            _m_needObInitY = Screen.height + Screen.height / 2.0f;
             //当前已经生成的位置
-            _m_lastObInitY = Screen.height / 2.0f;
+            _m_lastObInitY = 0;
+            _m_needObInitY = -UTBattleMain.instance.worldPerH * 20;
 
             _m_showObstacleList = new List<_AUTObstacleBase>();
             _m_obstacleCacheDic = new Dictionary<EObstacleType, UTObstacleCache>();
@@ -66,7 +69,12 @@ namespace UTGame
             int typeLength = Enum.GetValues(typeof(EObstacleType)).Length;
             SimpleStepCounter stepCounter = new SimpleStepCounter();
             stepCounter.chgTotalStepCount(typeLength);
-            stepCounter.regAllDoneDelegate(_doneAction);
+            stepCounter.regAllDoneDelegate(() =>
+            {
+                _m_bIsInit = true;
+                if (null != _doneAction)
+                    _doneAction();
+            });
 
             //先把缓存类构建好
             for (int i = 0; i < typeLength; i++)
@@ -127,21 +135,24 @@ namespace UTGame
         {
             //先回收不需要的障碍物
             _AUTObstacleBase temp = null;
-            for (int i = 0; i < _m_showObstacleList.Count; i++)
+            for (int i = _m_showObstacleList.Count - 1; i >= 0; i--)
             {
                 temp = _m_showObstacleList[i];
                 if (null == temp)
+                {
+                    _m_showObstacleList.RemoveAt(i);
                     continue;
+                }
 
                 //如果物体超出一个半屏幕则回收 TODO 这里可能会有问题
-                if (temp.transform.position.y < _m_needObInitY - (Screen.height * 2.0f / 3))
+                if (temp.transform.position.y > _m_needObInitY + UTBattleMain.instance.worldPerH * 30)
                 {
                     pushBackObstacel(temp);
+                    _m_showObstacleList.RemoveAt(i);
                 }
             }
 
-            //生成需要的障碍物
-            for (int i = 0; i < 10; i++)
+            while (_m_lastObInitY > _m_needObInitY)
             {
                 bool isSuc = popObstacle();
                 if (!isSuc)
@@ -150,10 +161,11 @@ namespace UTGame
                     break;
                 }
             }
-            // while (_m_lastObInitY < _m_needObInitY)
-            // {
-            //
-            // }
+        }
+
+        public void addNeedObInitY(float _addY)
+        {
+            _m_needObInitY -= _addY;
         }
 
         /// <summary>
@@ -172,25 +184,11 @@ namespace UTGame
             if (null == stageRefObj)
                 return false;
 
-            //获取障碍物
+            //获取障碍物数据
             EObstacleType randomType = stageRefObj.getRandomObstacleType();
             _AUTObstacleBase obstacle = _getObstacle(randomType);
             if (null == obstacle)
                 return false;
-
-            obstacle.transform.SetParent(_m_initParTrans);
-            //随机一个y轴距离 UI位置
-            float yMargin = 0;
-            float xStartX = 0;
-            if (null != stageRefObj)
-            {
-                yMargin = GCommon.getBattleRealUIPosY(stageRefObj.getRandomY());
-                xStartX = GCommon.getBattleRealUIPosX(stageRefObj.getRandomX());
-            }
-
-            //设置障碍物位置
-            _m_lastObInitY += yMargin;
-            obstacle.setPos(new Vector2(xStartX,-_m_lastObInitY));
 
             //设置数据 先根据类型获取障碍物样式id 再过滤掉当前阶段不可生成的id
             UTObstacleTypeRefObj typeRef = GRefdataCoreMgr.instance.obstacleTypeListCore.getRef((int)randomType);
@@ -207,6 +205,9 @@ namespace UTGame
             }
 
             obstacle.setData(GCommon.getRandom(enableObstacleList), stageRefObj.getRandomColor());
+
+            _setObstaclePos(obstacle, stageRefObj);
+            _m_showObstacleList.Add(obstacle);
             return true;
         }
 
@@ -229,7 +230,6 @@ namespace UTGame
 
             cache.pushBackCacheItem(_obstacle.gameObject);
         }
-
 
         public void reset()
         {
@@ -258,12 +258,41 @@ namespace UTGame
 
             UTObstacleCache cache = null;
             _m_obstacleCacheDic.TryGetValue(_type, out cache);
-            if(null == cache)
+            if (null == cache)
                 return null;
 
             GameObject go = cache.popItem();
             _AUTObstacleBase wnd = go.GetComponent<_AUTObstacleBase>();
             return wnd;
+        }
+
+        private void _setObstaclePos(_AUTObstacleBase _obstacle, UTStageRefObj _stageRefObj)
+        {
+            if (null == _obstacle || null == _stageRefObj)
+                return;
+
+            //计算位置
+            _obstacle.transform.SetParent(_m_initParTrans);
+            //随机一个y轴距离 UI位置
+            float yMargin = 0;
+            float xMargin = 0;
+            if (null != _stageRefObj)
+            {
+                yMargin = _stageRefObj.getRandomY() * UTBattleMain.instance.worldPerH;
+                xMargin = _stageRefObj.getRandomX() * UTBattleMain.instance.worldPerW;
+                float halfSizeX = _obstacle.getSize().x / 2f;
+                if (xMargin < halfSizeX)
+                    xMargin = halfSizeX;
+
+                if (xMargin + halfSizeX > GCommon.getWorldWidth())
+                    xMargin = GCommon.getWorldWidth() - halfSizeX;
+            }
+
+            //设置障碍物位置
+            _m_lastObInitY -= yMargin;
+            _obstacle.setPos(new Vector2(UTBattleMain.instance.startPos.x + xMargin, _m_lastObInitY));
+
+            _m_lastObInitY -= _obstacle.getSize().y / 2f;
         }
 
         private bool _check()

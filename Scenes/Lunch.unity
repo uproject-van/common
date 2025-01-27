@@ -401,6 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d559acc7f4cf545e3bbd832ff86cc0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 963194230}
   isMonitorTaskTime: 0
   showDebugOutput: 0
   logLevel: 0

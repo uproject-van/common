@@ -16,6 +16,9 @@ namespace UTGame
             get { return _g_instance; }
         }
 
+        [Header("主相机")]
+        public Camera mainCamera;
+        
         [Header("是否进行任务超时监控")]
         public bool isMonitorTaskTime;
 
@@ -30,11 +33,13 @@ namespace UTGame
 
         [Header("当前运行模式")]
         public EPlayMode playMode;
-        
+
         [Header("默认包名")]
         public string packageName = "DefaultPackage";
-        
+
         public GameObject testGo;
+
+
 
         private void Start()
         {
@@ -46,6 +51,7 @@ namespace UTGame
                 UTLog.Error("Multiple GameMain Mono!!!");
                 return;
             }
+
             YooAssets.Initialize();
             //设置对象不被删除
             DontDestroyOnLoad(this);
@@ -57,15 +63,15 @@ namespace UTGame
             //判断本对象是否有加载UTMonoCoroutineDealer脚本，无则自动添加
             if (null == gameObject.GetComponent<UTMonoCoroutineDealer>())
                 gameObject.AddComponent<UTMonoCoroutineDealer>();
-            
+
             //资源管理初始化
             UTYooAssetMgr.instance.init();
             UGUICommon.combineBtnClick(testGo, _testGoDidClick);
 
             //固定相机的参数 防止被改到
-            Camera.main.transform.position = new Vector3(0,0,-10);
+            GameMain.instance.mainCamera.transform.position = new Vector3(0, 0, -10);
         }
-        
+
         private void _testGoDidClick(GameObject _go)
         {
             UTCommonTaskController.CommonActionAddNextFrameTask(() =>
@@ -76,22 +82,22 @@ namespace UTGame
                 {
                     handle.Completed += (_handle) =>
                     {
-                      if (_handle.Status == EOperationStatus.Succeed)
-                      {
-                          Debug.Log("场景加载成功！");
+                        if (_handle.Status == EOperationStatus.Succeed)
+                        {
+                            Debug.Log("场景加载成功！");
 
-                          // 查找场景中带有特定标签的相机并移除
-                          GameObject[] cameras = GameObject.FindGameObjectsWithTag("cameraTag");
-                          foreach (var camera in cameras)
-                          {
-                              Debug.Log($"移除相机: {camera.name}");
-                              Destroy(camera);
-                          }
-                      }
-                      else
-                      {
-                          Debug.LogError($"场景加载失败：{handle.LastError}");
-                      }
+                            // 查找场景中带有特定标签的相机并移除
+                            GameObject[] cameras = GameObject.FindGameObjectsWithTag("cameraTag");
+                            foreach (var camera in cameras)
+                            {
+                                Debug.Log($"移除相机: {camera.name}");
+                                Destroy(camera);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError($"场景加载失败：{handle.LastError}");
+                        }
                     };
                 }
                 //SceneManager.LoadScene("Game", LoadSceneMode.Additive);

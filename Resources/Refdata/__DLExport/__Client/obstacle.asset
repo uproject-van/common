@@ -19,7 +19,7 @@ MonoBehaviour:
     prefab_name: obstacle_fixed_1001
   - id: 2
     type: 1
-    stage_id: 1
+    stage_id: 2
     prefab_name: obstacle_fixed_1002
   - id: 3
     type: 1

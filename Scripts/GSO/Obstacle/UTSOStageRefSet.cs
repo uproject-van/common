@@ -42,7 +42,6 @@ namespace UTGame
         public int getRandomY()
         {
             int randomY = y_init_range.getRandomValue();
-            UTLog.Error($"randomY_Idx = {randomY}");
             return randomY;
         }
     }

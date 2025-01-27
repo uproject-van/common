@@ -30,6 +30,7 @@ namespace UTGame
         {
             _m_obstacleRefObj = _refObj;
             _m_eColor = _color;
+            _m_eObstacleSize = GCommon.getRandom<EObstacleSize>();
             _refresh();
         }
 
@@ -42,10 +43,7 @@ namespace UTGame
             if(null == transform)
                 return;
             
-            //把UI位置转换成场景位置并设置
-            Vector3 worldPos = GCommon.chgUIPosToWorldPos(_pos);
-            UTLog.Error($"init pos = {_pos}");
-            transform.position = worldPos;
+            transform.position = _pos;
             //重置一下位置
             if (null != _m_loadGo)
             {
@@ -64,7 +62,6 @@ namespace UTGame
                 return;
             }
             
-            _m_eObstacleSize = GCommon.getRandom<EObstacleSize>();
             UTYooAssetMgr.instance.LoadAssetAsync(_m_obstacleRefObj.prefab_name, (_isSuc, _go) =>
             {
                 if (!_isSuc || null == _go)
@@ -85,5 +82,7 @@ namespace UTGame
         /// 不同类型的障碍物触发不同的效果
         /// </summary>
         protected abstract void _dealEffect();
+        
+        public abstract Vector2 getSize();
     }
 }

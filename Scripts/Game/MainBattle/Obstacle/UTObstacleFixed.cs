@@ -8,11 +8,19 @@ namespace UTGame
     /// </summary>
     public class UTObstacleFixed : _AUTObstacleBase
     {
+        private Vector2 _m_size = Vector2.zero;
         /// <summary>
         /// 碰撞触发效果
         /// </summary>
         protected override void _dealEffect()
         {
+        }
+
+        public override Vector2 getSize()
+        {
+            if (_m_size == Vector2.zero)
+                _m_size.Set(_m_obstacleRefObj.getRealWidth(_m_eObstacleSize), 0.64f);
+            return _m_size;
         }
 
         protected override void _refreshEx()
@@ -29,10 +37,8 @@ namespace UTGame
                 return;
 
             //设置尺寸
-            float realWidth = _m_obstacleRefObj.getRealWidth(_m_eObstacleSize);
-            spriteRenderer.size.Set(realWidth, spriteRenderer.size.y);
-            boxCollider2D.size = new Vector2(realWidth, spriteRenderer.size.y);
-            
+            spriteRenderer.size = getSize();
+            boxCollider2D.size = getSize();
             //重置一下位置
             if (null != _m_loadGo)
             {

@@ -17,10 +17,10 @@ MonoBehaviour:
     floor: 1
     x_init_pos_list:
     - _m_iMin: 1
-      _m_iMax: 5
+      _m_iMax: 10
     y_init_range:
-      _m_iMin: 1
-      _m_iMax: 3
+      _m_iMin: 3
+      _m_iMax: 4
     color_list: 0100000002000000
     type_list: 01000000
   - stage_id: 2
