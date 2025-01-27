@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
@@ -18,7 +19,13 @@ namespace UTGame
 
         [Header("主相机")]
         public Camera mainCamera;
-        
+
+        [Header("主画布")]
+        public Canvas mainCanvas;
+
+        [Header("画布层级")]
+        public List<RectTransform> canvasGolist;
+
         [Header("是否进行任务超时监控")]
         public bool isMonitorTaskTime;
 
@@ -40,7 +47,6 @@ namespace UTGame
         public GameObject testGo;
 
 
-
         private void Start()
         {
             //设置处理对象
@@ -53,8 +59,12 @@ namespace UTGame
             }
 
             YooAssets.Initialize();
+            UIQueueMgr.instance.init();
             //设置对象不被删除
             DontDestroyOnLoad(this);
+            if (null != mainCanvas)
+                DontDestroyOnLoad(mainCanvas);
+
             //进行 task 初始化
             UTMonoTaskMgr.instance.addMonoTask(null);
             //判断本对象是否有加载ALMonoTaskMono脚本，无则自动添加

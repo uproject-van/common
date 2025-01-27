@@ -1,5 +1,12 @@
 namespace UTGame
 {
+    public enum EUIQueueNode
+    {
+        NORMAL,
+        ADD,
+        TOP,
+    }
+    
     /// <summary>
     /// 颜色枚举
     /// </summary>

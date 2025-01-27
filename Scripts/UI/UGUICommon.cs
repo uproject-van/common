@@ -680,7 +680,7 @@ namespace UTGame
             GameObject addGo = GameObject.Instantiate(_temp);
             if (addGo != null)
             {
-                addGo.transform.position = Vector3.zero;
+                addGo.transform.localPosition = Vector3.zero;
                 addGo.transform.localScale = Vector3.one;
                 addGo.transform.rotation = Quaternion.identity;
             }
