@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace UTGame
 {
     //战斗管理类
-    public class UTBattleMain : MonoBehaviour
+    public class UTBattleMain : MonoBehaviour,_IUTBaseTaskInterface
     {
         [Header("障碍物生成父节点")]
         public Transform obstacleInitPar;
@@ -47,6 +47,11 @@ namespace UTGame
             get { return _m_endPos; }
         }
 
+        public long showOpSerialize
+        {
+            get { return _m_showOpSerialize; }
+        }
+        
         private static UTBattleMain _g_instance = null;
 
         public static UTBattleMain instance
@@ -66,6 +71,12 @@ namespace UTGame
 
         private Rigidbody2D _m_rigidbody2D;
 
+        //当前游戏状态
+        private EBattleStauts _m_battleStauts;
+        
+        //定时任务相关
+        private long _m_showOpSerialize;
+        
         private void Start()
         {
             //设置处理对象
@@ -90,7 +101,13 @@ namespace UTGame
 
             _m_rigidbody2D = mainPlayer.GetComponent<Rigidbody2D>();
             _m_obstacleMgr = new UTObstacleMgr();
-            _m_obstacleMgr.init(() => { _m_obstacleMgr.start(obstacleInitPar); });
+            _m_obstacleMgr.init(() =>
+            {
+                _m_obstacleMgr.start(obstacleInitPar);
+                _m_battleStauts = EBattleStauts.READY;
+                _startTick();
+            });
+
         }
 
         private void OnDisable()
@@ -101,9 +118,29 @@ namespace UTGame
             _m_obstacleMgr.reset();
         }
 
-        public void Update()
+        private void _startTick()
         {
-            if (null == _m_obstacleMgr || !_m_obstacleMgr.isInit || null == GameMain.instance.mainCamera)
+            if(_m_battleStauts != EBattleStauts.READY)
+                return;
+            
+            _m_battleStauts = EBattleStauts.GAMING;
+            _stopTick();
+            _m_showOpSerialize = UTSerializeOpMgr.next();
+            UTMonoTaskMgr.instance.addNextFrameTask(new UTCycleFrameMonoTask(this));
+            UTMonoTaskMgr.instance.addNextFixedUpdateTask(new UTCycleFixedFrameMonoTask(this));
+        }
+        
+        private void _stopTick()
+        {
+            _m_showOpSerialize = UTSerializeOpMgr.next();
+        }
+
+        /// <summary>
+        /// 定时任务
+        /// </summary>
+        public void tick()
+        {
+            if (_m_battleStauts != EBattleStauts.GAMING)
                 return;
 
             // 相机以一定速度向下移动
@@ -115,15 +152,12 @@ namespace UTGame
                 GameMain.instance.mainCamera.transform.position.y + UTBattleMain.instance.worldPerH * 10, 0);
         }
 
-        public void FixedUpdate()
+        public void fixedTick()
         {
-            if (null == _m_obstacleMgr || !_m_obstacleMgr.isInit || null == GameMain.instance.mainCamera)
+            if (_m_battleStauts != EBattleStauts.GAMING)
                 return;
             
-            if (!_check())
-                return;
-
-            if (null == _m_rigidbody2D)
+            if (!_check() || null == _m_rigidbody2D)
                 return;
 
             // 移动
@@ -142,6 +176,11 @@ namespace UTGame
             UGUICommon.setLabelTxt(floorTxt, _calCurFloor());
         }
 
+        public void gameOver()
+        {
+            _stopTick();
+            _m_battleStauts = EBattleStauts.END;
+        }
         #region 工具类
 
         /// <summary>

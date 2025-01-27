@@ -11,5 +11,10 @@ namespace UTGame
 
         /** 刷新函数 */
         void tick();
+
+        virtual void fixedTick()
+        {
+            
+        }
     }
 }

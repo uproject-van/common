@@ -1,12 +1,24 @@
 namespace UTGame
 {
+    /// <summary>
+    /// UI生成节点node枚举
+    /// </summary>
     public enum EUIQueueNode
     {
         NORMAL,
         ADD,
         TOP,
     }
-    
+
+    /// <summary>
+    /// 当前战斗状态
+    /// </summary>
+    public enum EBattleStauts
+    {
+        READY,//已准备
+        GAMING,//游戏中
+        END,//游戏结束
+    }
     /// <summary>
     /// 颜色枚举
     /// </summary>
